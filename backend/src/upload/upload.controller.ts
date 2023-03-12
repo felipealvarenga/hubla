@@ -17,7 +17,10 @@ export class UploadController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@Res() res, @UploadedFile() file: Express.Multer.File) {
     if (!file) {
-      throw new HttpException('Error on file uploaded', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'There is an error in the uploaded file',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     return res.send(file);
