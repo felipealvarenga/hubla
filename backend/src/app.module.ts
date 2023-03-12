@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UploadModule } from './upload/upload.module';
+import { CreatorModule } from './creator/creator.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UploadModule } from './upload/upload.module';
     }),
     ConfigModule.forRoot({ envFilePath: ['.env'] }),
     UploadModule,
+    CreatorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
