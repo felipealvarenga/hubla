@@ -2,12 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ProductService } from '../product/product.service';
 import { CreatorService } from '../creator/creator.service';
 import { Row } from './row';
+import { SaleService } from '../sale/sale.service';
 
 @Injectable()
 export class UploadService {
   constructor(
     private readonly creatorService: CreatorService,
     private readonly productService: ProductService,
+    private readonly saleService: SaleService,
   ) {}
   async parseAndSave(file: Express.Multer.File) {
     const rows = file.buffer.toString().split('\n').filter(Boolean);
@@ -41,8 +43,14 @@ export class UploadService {
   }
   private async handleCreatorSale(row: Row) {
     const creator = await this.creatorService.save({ name: row.seller });
-    await this.productService.save({
+    const product = await this.productService.save({
       name: row.product,
+      creator_id: creator.id,
+    });
+    await this.saleService.create({
+      date: row.date,
+      amount: row.amount,
+      product_id: product.id,
       creator_id: creator.id,
     });
   }
