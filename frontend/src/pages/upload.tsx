@@ -66,7 +66,7 @@ function UploadPage () {
         {uploadedFile && (
           <div className="bg-green-100 text-green-800 p-4 rounded-md mb-4">
             <p>
-              Uploaded file: {uploadedFile.name} ({uploadedFile.size} bytes, {uploadedFile.type})
+              Uploaded file
             </p>
           </div>
         )}
