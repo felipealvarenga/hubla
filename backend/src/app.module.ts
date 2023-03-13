@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UploadModule } from './upload/upload.module';
 import { CreatorModule } from './creator/creator.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CreatorModule } from './creator/creator.module';
     ConfigModule.forRoot({ envFilePath: ['.env'] }),
     UploadModule,
     CreatorModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
