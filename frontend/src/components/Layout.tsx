@@ -18,6 +18,9 @@ function Layout({ children }: Props) {
           <Link href="/upload" className="hover:text-blue-600">
             Upload
           </Link>
+          <Link href="/affiliate" className="hover:text-blue-600">
+            Affiliate
+          </Link>
         </nav>
       </header>
       <main className="flex-grow p-8">{children}</main>
