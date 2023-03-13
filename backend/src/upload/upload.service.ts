@@ -4,6 +4,7 @@ import { CreatorService } from '../creator/creator.service';
 import { Row } from './row';
 import { SaleService } from '../sale/sale.service';
 import { AffiliateService } from '../affiliate/affiliate.service';
+import { CommissionService } from '../commission/commission.service';
 
 @Injectable()
 export class UploadService {
@@ -12,6 +13,7 @@ export class UploadService {
     private readonly productService: ProductService,
     private readonly saleService: SaleService,
     private readonly affiliateService: AffiliateService,
+    private readonly commissionService: CommissionService,
   ) {}
   async parseAndSave(file: Express.Multer.File) {
     const rows = file.buffer.toString().split('\n').filter(Boolean);
@@ -32,6 +34,8 @@ export class UploadService {
         await this.handleCreatorSale(row);
       } else if (row.type === '2') {
         await this.handleAffiliateSale(row);
+      } else if (row.type === '3') {
+        await this.handlePaidCommission(row);
       }
     }
 
@@ -80,6 +84,25 @@ export class UploadService {
       product_id: existingProduct.id,
       creator_id: existingProduct.creator.id,
       affiliate_id: affiliate.id,
+    });
+  }
+  private async handlePaidCommission(row: Row) {
+    const paidCommissionProduct = await this.productService.findByName(
+      row.product,
+    );
+
+    if (!paidCommissionProduct) {
+      throw new HttpException(
+        `Product ${row.product} not found`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.commissionService.create({
+      creator_id: paidCommissionProduct.creator.id,
+      product_id: paidCommissionProduct.id,
+      date: row.date,
+      amount: -row.amount, //paid commissions are negative
     });
   }
 }
