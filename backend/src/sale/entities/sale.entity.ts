@@ -7,7 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Affiliate } from 'src/affiliate/entities/affiliate.entity';
+import { Affiliate } from '../../affiliate/entities/affiliate.entity';
 
 @Entity('sale')
 export class Sale {
