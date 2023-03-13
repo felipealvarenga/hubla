@@ -7,6 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { Affiliate } from 'src/affiliate/entities/affiliate.entity';
 
 @Entity('sale')
 export class Sale {
@@ -21,7 +22,9 @@ export class Sale {
   @JoinColumn({ name: 'creator_id' })
   creator: Creator;
 
-  affiliate: { id: number };
+  @ManyToOne(() => Affiliate, { nullable: true })
+  @JoinColumn({ name: 'affiliate_id' })
+  affiliate: Affiliate;
 
   @Column()
   date: Date;
