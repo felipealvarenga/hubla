@@ -38,7 +38,7 @@ export class UploadController {
       );
     }
 
-    await this.uploadService.parseAndSave(file);
-    return res.send(file);
+    const result = await this.uploadService.parseAndSave(file);
+    return res.send(result);
   }
 }
