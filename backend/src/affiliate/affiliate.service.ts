@@ -40,4 +40,18 @@ export class AffiliateService {
       name: affiliate.name,
     }));
   }
+  async getBalance(id: number) {
+    const affiliates = await this.affiliateRepository.find({
+      where: { id },
+      relations: { commissions: true },
+    });
+    return affiliates.map((affiliate) => ({
+      id: affiliate.id,
+      name: affiliate.name,
+      balance: affiliate.commissions.reduce(
+        (acc, commission) => acc + commission.amount,
+        0,
+      ),
+    }));
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AffiliateService } from './affiliate.service';
 
 @Controller('affiliate')
@@ -8,5 +8,12 @@ export class AffiliateController {
   @Get()
   findAll() {
     return this.affiliateService.findAll();
+  }
+  @Get(':id/balance')
+  async getBalance(
+    @Param('id') id: string,
+  ): Promise<{ id: number; name: string; balance: number }> {
+    const [result] = await this.affiliateService.getBalance(+id);
+    return result;
   }
 }
