@@ -1,8 +1,9 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreatorService } from './creator.service';
 
 @Controller('creator')
+@ApiTags('Creator')
 export class CreatorController {
   constructor(private readonly creatorService: CreatorService) {}
 
