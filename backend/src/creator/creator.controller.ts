@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { CreatorService } from './creator.service';
 
 @Controller('creator')
@@ -8,5 +8,9 @@ export class CreatorController {
   @Get()
   findAll() {
     return this.creatorService.findAll();
+  }
+  @Get(':id/balance')
+  async getBalance(@Param('id') id: string): Promise<{ balance: number }> {
+    return this.creatorService.getBalance(+id);
   }
 }
