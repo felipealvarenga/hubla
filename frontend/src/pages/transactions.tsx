@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { GetServerSideProps } from 'next';
 import Layout from '@/components/Layout';
+import { useEffect, useState } from 'react';
 
 type Affiliate = {
   id: number;
@@ -47,7 +47,25 @@ type Props = {
   products: Product[];
 };
 
-export default function ProductTransactions ({ products }: Props) {
+export default function ProductTransactions () {
+  const [error, setError] = useState<{ statusCode: number; message: string } | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await axios.get<Product[]>(`${process.env.NEXT_PUBLIC_API_URL}/product/transactions`);
+        setProducts(data);
+        
+      } catch (error: any) {
+        setError({ statusCode: error.statusCode, message: error.message });
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  
   return (
     <Layout>
       <div className="flex flex-col w-full">
@@ -110,14 +128,3 @@ export default function ProductTransactions ({ products }: Props) {
     </Layout>
   );
 }
-
-
-
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const { data } = await axios.get<Product[]>(`${process.env.NEXT_PUBLIC_API_URL}/product/transactions`);
-  return {
-    props: {
-      products: data,
-    },
-  };
-};
