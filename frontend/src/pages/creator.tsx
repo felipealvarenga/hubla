@@ -1,6 +1,7 @@
 import Layout from '@/components/Layout';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import Head from 'next/head';
 
 interface Option {
   value: string;
@@ -17,6 +18,7 @@ interface Creator {
 const Creator = () => {
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [options, setOptions] = useState<Option[]>([]);
+  const [error, setError] = useState<{ statusCode: number; message: string } | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,8 +30,8 @@ const Creator = () => {
           balance: creator.balance
         }));
         setOptions(creators);
-      } catch (error) {
-        console.error(error);
+      } catch (error: any) {
+        setError({ statusCode: error.statusCode, message: error.message });
       }
     };
 
@@ -37,27 +39,58 @@ const Creator = () => {
   }, []);
 
   const handleOptionChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const creator_id = parseInt(event.target.value);
+    try {
 
-    if (isNaN(creator_id)) {
-      return setSelectedOption(null);
-    };
 
-    const response = await axios.get<Creator>(`${process.env.NEXT_PUBLIC_API_URL}/creator/${creator_id}/balance`);
-    const selectedCreator = response.data
-    if (selectedCreator) {
-      const balanceInCents = +(parseFloat(selectedCreator.balance) / 100);
-      const selectedOption = {
-        value: selectedCreator.id.toString(),
-        label: selectedCreator.name,
-        balance: balanceInCents.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+      const creator_id = parseInt(event.target.value);
+
+      if (isNaN(creator_id)) {
+        return setSelectedOption(null);
       };
 
-      setSelectedOption(selectedOption);
-    } else {
+      const response = await axios.get<Creator>(`${process.env.NEXT_PUBLIC_API_URL}/creator/${creator_id}/balance`);
+      const selectedCreator = response.data
+      if (selectedCreator) {
+        const balanceInCents = +(parseFloat(selectedCreator.balance) / 100);
+        const selectedOption = {
+          value: selectedCreator.id.toString(),
+          label: selectedCreator.name,
+          balance: balanceInCents.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        };
+
+        setSelectedOption(selectedOption);
+      } else {
+        setSelectedOption(null);
+      }
+    } catch (error: any) {
       setSelectedOption(null);
+      setError({ statusCode: error.statusCode, message: error.message });
     }
   };
+
+  if (error) {
+    return (
+      <Layout>
+        <Head>
+          <title>Error {error.statusCode}</title>
+        </Head>
+        <div style={{ background: 'white', color: 'black' }} className="mx-auto max-w-lg">
+          <h1 className="text-2xl font-semibold mb-4">Error {error.statusCode}</h1>
+          {error.message && (
+            <div className="bg-red-100 text-red-800 p-4 rounded-md mb-4">
+              <p>{error.message}</p>
+            </div>
+          )}
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded-md"
+            onClick={() => setError(null)}
+          >
+            Go back
+          </button>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
