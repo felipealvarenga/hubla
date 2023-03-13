@@ -23,6 +23,7 @@ export class UploadController {
       );
     }
 
+    await this.uploadService.parseAndSave(file);
     return res.send(file);
   }
 }
