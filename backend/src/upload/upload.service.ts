@@ -49,7 +49,7 @@ export class UploadService {
       throw new HttpException(message, HttpStatus.BAD_REQUEST);
     }
 
-    return file;
+    return { message: 'File uploaded and processed successfully' };
   }
   private async handleCreatorSale(row: Row) {
     const creator = await this.creatorService.save({ name: row.seller });
