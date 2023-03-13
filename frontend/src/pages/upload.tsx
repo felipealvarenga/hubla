@@ -84,7 +84,8 @@ function UploadPage () {
           </div>
           <button
             type="button"
-            className="bg-blue-500 text-white py-2 px-4 rounded-md"
+            className="text-black font-bold text-lg px-6 py-3 border-2  rounded-lg hover:bg-green-900  transition duration-300 ease-in-out mt-6"
+            style={{ backgroundColor: '#D8F55F' }}
             onClick={handleUpload}
           >
             Upload
