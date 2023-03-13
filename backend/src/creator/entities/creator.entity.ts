@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Affiliate } from '../../affiliate/entities/affiliate.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Product } from '../../product/entities/product.entity';
 
 @Entity('creator')
 export class Creator {
@@ -7,4 +9,10 @@ export class Creator {
 
   @Column()
   name: string;
+
+  @OneToMany(() => Product, (product) => product.creator)
+  products: Product[];
+
+  @OneToMany(() => Affiliate, (affiliate) => affiliate.creator)
+  affiliates: Affiliate[];
 }

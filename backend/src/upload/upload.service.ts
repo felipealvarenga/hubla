@@ -3,6 +3,7 @@ import { ProductService } from '../product/product.service';
 import { CreatorService } from '../creator/creator.service';
 import { Row } from './row';
 import { SaleService } from '../sale/sale.service';
+import { AffiliateService } from '../affiliate/affiliate.service';
 
 @Injectable()
 export class UploadService {
@@ -10,6 +11,7 @@ export class UploadService {
     private readonly creatorService: CreatorService,
     private readonly productService: ProductService,
     private readonly saleService: SaleService,
+    private readonly affiliateService: AffiliateService,
   ) {}
   async parseAndSave(file: Express.Multer.File) {
     const rows = file.buffer.toString().split('\n').filter(Boolean);
@@ -28,6 +30,8 @@ export class UploadService {
         errors.push({ message: row.errors.join(', '), row: index + 1 });
       } else if (row.type === '1') {
         await this.handleCreatorSale(row);
+      } else if (row.type === '2') {
+        await this.handleAffiliateSale(row);
       }
     }
 
@@ -52,6 +56,30 @@ export class UploadService {
       amount: row.amount,
       product_id: product.id,
       creator_id: creator.id,
+    });
+  }
+
+  private async handleAffiliateSale(row: Row) {
+    const existingProduct = await this.productService.findByName(row.product);
+
+    if (!existingProduct) {
+      throw new HttpException(
+        `Product ${row.product} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const affiliate = await this.affiliateService.save({
+      name: row.seller,
+      creator_id: existingProduct.creator.id,
+    });
+
+    await this.saleService.create({
+      date: row.date,
+      amount: row.amount,
+      product_id: existingProduct.id,
+      creator_id: existingProduct.creator.id,
+      affiliate_id: affiliate.id,
     });
   }
 }

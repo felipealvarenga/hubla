@@ -7,6 +7,7 @@ import { UploadModule } from './upload/upload.module';
 import { CreatorModule } from './creator/creator.module';
 import { ProductModule } from './product/product.module';
 import { SaleModule } from './sale/sale.module';
+import { AffiliateModule } from './affiliate/affiliate.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { SaleModule } from './sale/sale.module';
     CreatorModule,
     ProductModule,
     SaleModule,
+    AffiliateModule,
   ],
   controllers: [AppController],
   providers: [AppService],
