@@ -5,7 +5,9 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
+import { Commission } from '../../commission/entities/commission.entity';
 
 @Entity('affiliate')
 export class Affiliate {
@@ -18,4 +20,7 @@ export class Affiliate {
   @ManyToOne(() => Creator, (creator) => creator.products)
   @JoinColumn({ name: 'creator_id' })
   creator: Creator;
+
+  @OneToMany(() => Commission, (commission) => commission.affiliate)
+  commissions: Commission[];
 }
