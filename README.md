@@ -15,7 +15,7 @@ Before running the application, you need to have the following software installe
 To get started with the application, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/felipealvarenga/hubla.git`
-2. Navigate to the project directory: `cd your-project`
+2. Navigate to the project directory: `cd hubla`
 3. Start the application: `docker-compose up --build`
 
 The frontend will be accessible at [http://localhost:3000](http://localhost:3000) and the backend API will be accessible at [http://localhost:3333](http://localhost:3333).
