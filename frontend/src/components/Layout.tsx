@@ -10,7 +10,7 @@ function Layout({ children }: Props) {
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
       <Head>
-        <title>My Next.js App</title>
+        <title>Hubla</title>
       </Head>
       <header className="bg-white text-black py-4 px-8 flex items-center justify-between ">
         <h1 className="text-xl font-semibold mr-auto">Hubla Challange</h1>
@@ -20,6 +20,9 @@ function Layout({ children }: Props) {
           </Link>
           <Link href="/affiliate" className="hover:text-blue-600">
             Affiliate
+          </Link>
+          <Link href="/creator" className="hover:text-blue-600">
+            Creator
           </Link>
         </nav>
       </header>
