@@ -36,6 +36,8 @@ export class UploadService {
         await this.handleAffiliateSale(row);
       } else if (row.type === '3') {
         await this.handlePaidCommission(row);
+      } else if (row.type === '4') {
+        await this.handleReceivedCommission(row);
       }
     }
 
@@ -103,6 +105,37 @@ export class UploadService {
       product_id: paidCommissionProduct.id,
       date: row.date,
       amount: -row.amount, //paid commissions are negative
+    });
+  }
+  private async handleReceivedCommission(row: Row) {
+    const receivedCommissionAffiliate = await this.affiliateService.findByName(
+      row.seller,
+    );
+
+    if (!receivedCommissionAffiliate) {
+      throw new HttpException(
+        `Affiliate ${row.seller} not found`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const receivedCommissionProduct = await this.productService.findByName(
+      row.product,
+    );
+
+    if (!receivedCommissionProduct) {
+      throw new HttpException(
+        `Product ${row.product} not found`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.commissionService.create({
+      affiliate_id: receivedCommissionAffiliate.id,
+      creator_id: receivedCommissionProduct.creator.id,
+      product_id: receivedCommissionProduct.id,
+      date: row.date,
+      amount: row.amount, //received commissions are positive
     });
   }
 }
