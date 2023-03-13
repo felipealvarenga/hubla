@@ -1,10 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ProductService } from '../product/product.service';
 import { CreatorService } from '../creator/creator.service';
 import { Row } from './row';
 
 @Injectable()
 export class UploadService {
-  constructor(private readonly creatorService: CreatorService) {}
+  constructor(
+    private readonly creatorService: CreatorService,
+    private readonly productService: ProductService,
+  ) {}
   async parseAndSave(file: Express.Multer.File) {
     const rows = file.buffer.toString().split('\n').filter(Boolean);
     const fieldInfo: Array<[number, number, string]> = [
@@ -36,6 +40,10 @@ export class UploadService {
     return file;
   }
   private async handleCreatorSale(row: Row) {
-    await this.creatorService.save({ name: row.seller });
+    const creator = await this.creatorService.save({ name: row.seller });
+    await this.productService.save({
+      name: row.product,
+      creator_id: creator.id,
+    });
   }
 }
