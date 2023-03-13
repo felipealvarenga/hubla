@@ -8,6 +8,7 @@ import { CreatorModule } from './creator/creator.module';
 import { ProductModule } from './product/product.module';
 import { SaleModule } from './sale/sale.module';
 import { AffiliateModule } from './affiliate/affiliate.module';
+import { CommissionModule } from './commission/commission.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AffiliateModule } from './affiliate/affiliate.module';
     ProductModule,
     SaleModule,
     AffiliateModule,
+    CommissionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
