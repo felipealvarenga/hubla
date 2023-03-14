@@ -6,7 +6,7 @@ function Home () {
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-semibold mb-4">Welcome to Hubla Challange</h1>
+        <h1 className="text-2xl font-semibold mb-4">Welcome to Hubla Challenge</h1>
         <h2 className="text-lg">
           Shall we begin by importing your transactions?
         </h2>

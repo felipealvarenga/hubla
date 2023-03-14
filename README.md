@@ -1,4 +1,4 @@
-# Hubla Challange: Next.js and Nest.js Application with Docker Compose
+# Hubla Challenge: Next.js and Nest.js Application with Docker Compose
 
 This is a web application built with Next.js for the frontend and Nest.js for the backend. Docker Compose is used to orchestrate the services and Swagger is used to document the backend API.
 
@@ -30,4 +30,4 @@ The application allows users to upload file transactions of sales and commission
 
 ## Credits
 
-This application was built by [Felipe Alvarenga] as part of [Hubla Challange].
+This application was built by [Felipe Alvarenga] as part of [Hubla Challenge].

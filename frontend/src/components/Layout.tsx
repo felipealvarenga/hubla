@@ -15,7 +15,7 @@ function Layout ({ children }: Props) {
       <header className="bg-white text-black py-4 px-8 flex items-center justify-between ">
         <h1 className="text-xl font-semibold mr-auto">
           <Link href="/">
-            Hubla Challange
+            Hubla Challenge
           </Link>
         </h1>
         <nav className="flex gap-4">
