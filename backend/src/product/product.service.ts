@@ -47,6 +47,9 @@ export class ProductService {
 
     // Fetch all sales and commissions for all products using a single query
     const productIds = products.map((product) => product.id);
+
+    if (!products.length) return [];
+
     const allSalesAndCommissions = await this.saleRepository
       .createQueryBuilder('sale')
       .innerJoinAndSelect('sale.product', 'product')
